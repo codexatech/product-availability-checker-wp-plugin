@@ -39,6 +39,10 @@ class PAC_Frontend
         // AJAX actions
         add_action('wp_ajax_pac_check_zip', [$this, 'ajax_check']);
         add_action('wp_ajax_nopriv_pac_check_zip', [$this, 'ajax_check']);
+
+        // Add ZIP availability to cart items
+        add_filter('woocommerce_add_cart_item_data', [$this, 'add_zip_to_cart_item'], 10, 3);
+        add_filter('woocommerce_get_item_data', [$this, 'show_zip_availability_in_cart'], 10, 2);
     }
 
     /**
@@ -108,5 +112,42 @@ class PAC_Frontend
         $result = $this->handler->check_availability($zip);
 
         wp_send_json_success($result);
+    }
+
+    /**
+     * Add ZIP availability to cart item data.
+     */
+    public function add_zip_to_cart_item($cart_item_data, $product_id, $variation_id)
+    {
+        if (!empty($_POST['pac_zip'])) {
+            $zip = sanitize_text_field($_POST['pac_zip']);
+            $availability = $this->handler->check_availability($zip);
+
+            $cart_item_data['pac_zip_availability'] = $availability;
+
+            // Prevent cart merge
+            $cart_item_data['unique_key'] = md5(microtime() . rand());
+        }
+
+        return $cart_item_data;
+    }
+
+    /**
+     * Display ZIP availability in cart and checkout.
+     */
+    public function show_zip_availability_in_cart($item_data, $cart_item)
+    {
+        if (isset($cart_item['pac_zip_availability'])) {
+            $availability = $cart_item['pac_zip_availability'];
+            $status = $availability['status'] ?? 'unavailable';
+            $message = $availability['message'] ?? '';
+
+            $item_data[] = [
+                'name'  => __('Availability', 'product-availability-checker'),
+                'value' => $message,
+            ];
+        }
+
+        return $item_data;
     }
 }
