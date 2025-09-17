@@ -1,0 +1,34 @@
+#pac-zip-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+#pac-zip-table th,
+#pac-zip-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+#pac-zip-table th {
+    background: #f9f9f9;
+    text-align: left;
+}
+
+#pac-zip-table input[type="text"] {
+    width: 100%;
+    max-width: 200px;
+}
+
+#pac-zip-table select {
+    width: 100%;
+    max-width: 150px;
+}
+
+.pac-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}

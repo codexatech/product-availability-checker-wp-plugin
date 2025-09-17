@@ -1,0 +1,17 @@
+#pac-checker {
+    margin: 15px 0;
+}
+
+#pac-zip {
+    width: 150px;
+    padding: 5px;
+}
+
+#pac-check-btn {
+    margin-left: 5px;
+}
+
+#pac-result {
+    margin-top: 10px;
+    font-weight: bold;
+}
