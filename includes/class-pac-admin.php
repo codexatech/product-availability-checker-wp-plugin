@@ -109,6 +109,12 @@ class PAC_Admin
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr class="no-rules">
+                            <td colspan="4" style="text-align:center; padding:12px;">
+                                No record found.
+                            </td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
